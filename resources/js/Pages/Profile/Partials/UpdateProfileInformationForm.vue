@@ -17,7 +17,10 @@ const props = defineProps({
 const form = useForm({
     _method: 'PUT',
     name: props.user.name,
+    salary_number: props.user.salary_number,
     email: props.user.email,
+    phone: props.user.phone,
+    address: props.user.address,
     photo: null,
 });
 
@@ -141,6 +144,34 @@ const clearPhotoFileInput = () => {
                 <JetInputError :message="form.errors.name" class="mt-2" />
             </div>
 
+            <!-- Salary Number -->
+            <div class="col-span-6 sm:col-span-4">
+                <JetLabel for="salary_number" value="Salary Number" />
+                <JetInput
+                    id="salary_number"
+                    v-model="form.salary_number"
+                    type="text"
+                    :disabled="['serviceman', 'foreman'].includes($page.props.user.role)"
+                    :class="{'bg-gray-100': ['serviceman', 'foreman'].includes($page.props.user.role)}"
+                    class="mt-1 block w-full"
+                />
+                <p class="text-xs mt-1 text-gray-500">Used for log in to system. Ask your supervisor if you want to change it.</p>
+                <JetInputError :message="form.errors.salary_number" class="mt-2" />
+            </div>
+
+            <!-- Role -->
+            <div class="col-span-6 sm:col-span-4">
+                <JetLabel for="role" value="Role" />
+                <JetInput
+                    id="role"
+                    :value="$page.props.user.role"
+                    disabled
+                    type="text"
+                    class="mt-1 block w-full bg-gray-100 capitalize"
+                    autocomplete="role"
+                />
+            </div>
+
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <JetLabel for="email" value="Email" />
@@ -172,6 +203,34 @@ const clearPhotoFileInput = () => {
                     </div>
                 </div>
             </div>
+
+            <!-- Phone Number -->
+            <div class="col-span-6 sm:col-span-4">
+                <JetLabel for="phone" value="Phone Number" />
+                <JetInput
+                    id="phone"
+                    v-model="form.phone"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="phone"
+                />
+                <JetInputError :message="form.errors.phone" class="mt-2" />
+            </div>
+
+            <!-- Address -->
+            <div class="col-span-6 sm:col-span-4">
+                <JetLabel for="address" value="Address" />
+                <JetInput
+                    id="address"
+                    v-model="form.address"
+                    type="text"
+                    class="mt-1 block w-full"
+                    autocomplete="address"
+                />
+                <JetInputError :message="form.errors.address" class="mt-2" />
+            </div>
+
+
         </template>
 
         <template #actions>

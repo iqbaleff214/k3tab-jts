@@ -14,7 +14,7 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
+    salary_number: '',
     password: '',
     remember: false,
 });
@@ -43,16 +43,16 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <JetLabel for="email" value="Email" />
+                <JetLabel for="salary_number" value="Salary Number" />
                 <JetInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
+                    id="salary_number"
+                    v-model="form.salary_number"
+                    type="text"
                     class="mt-1 block w-full"
                     required
                     autofocus
                 />
-                <JetInputError class="mt-2" :message="form.errors.email" />
+                <JetInputError class="mt-2" :message="form.errors.salary_number" />
             </div>
 
             <div class="mt-4">
