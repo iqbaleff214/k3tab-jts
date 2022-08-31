@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'administrator',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'superior_id' => null,
             ],
             [
                 'name' => 'Supervisor',
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'supervisor',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'superior_id' => 1,
             ],
             [
                 'name' => 'Foreman',
@@ -47,6 +49,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'foreman',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'superior_id' => 2,
             ],
             [
                 'name' => 'Serviceman',
@@ -55,6 +58,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'serviceman',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'superior_id' => 3,
             ],
         ];
 

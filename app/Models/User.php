@@ -27,6 +27,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'salary_number',
+        'address',
+        'phone',
+        'superior_id',
     ];
 
     /**
@@ -58,4 +62,14 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function superior()
+    {
+        return $this->belongsTo(User::class, 'superior_id', 'id');
+    }
+
+    public function subordinate()
+    {
+        return $this->hasMany(User::class, 'superior_id', 'id');
+    }
 }

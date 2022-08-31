@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('role')->default('serviceman');
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
+            $table->foreignId('superior_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
