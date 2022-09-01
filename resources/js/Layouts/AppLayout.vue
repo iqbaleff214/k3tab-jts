@@ -52,6 +52,9 @@ const logout = () => {
                                 <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </JetNavLink>
+                                <JetNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.role != 'serviceman'">
+                                    User Management
+                                </JetNavLink>
                             </div>
                         </div>
 

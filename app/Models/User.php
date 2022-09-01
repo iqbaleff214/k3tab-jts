@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'address',
         'phone',
         'superior_id',
+        'role',
     ];
 
     /**
@@ -62,6 +64,33 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function scopeRender($query, $search, $page)
+    {
+        return $query
+            ->with(['superior', 'subordinate'])
+            ->search($search)
+            ->when(auth()->user()->role == Role::FOREMAN->value, function($query) {
+                return $query->where('superior_id', auth()->user()->id);
+            })
+            ->when(auth()->user()->role == Role::SUPERVISOR->value, function($query) {
+                return $query->whereNotIn('role', ['supervisor', 'superadmin']);
+            })
+            ->paginate($page)
+            ->appends([
+                'search' => $search,
+                'number' => $page,
+            ]);
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query, $find) {
+            return $query
+                ->where('name', 'LIKE', '%' . $find . '%')
+                ->orWhere('salary_number', 'LIKE', '%' . $find . '%');
+        });
+    }
 
     public function superior()
     {
