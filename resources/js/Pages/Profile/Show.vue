@@ -36,9 +36,9 @@ defineProps({
                 </div>
 
                 <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
-                    <TwoFactorAuthenticationForm 
+                    <TwoFactorAuthenticationForm
                         :requires-confirmation="confirmsTwoFactorAuthentication"
-                        class="mt-10 sm:mt-0" 
+                        class="mt-10 sm:mt-0"
                     />
 
                     <JetSectionBorder />
@@ -46,7 +46,7 @@ defineProps({
 
                 <LogoutOtherBrowserSessionsForm :sessions="sessions" class="mt-10 sm:mt-0" />
 
-                <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
+                <template v-if="$page.props.jetstream.hasAccountDeletionFeatures && $page.props.user.role != 'superadmin'">
                     <JetSectionBorder />
 
                     <DeleteUserForm class="mt-10 sm:mt-0" />
