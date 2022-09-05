@@ -155,7 +155,7 @@ const clearPhotoFileInput = () => {
                     :class="{'bg-gray-100': ['serviceman', 'foreman'].includes($page.props.user.role)}"
                     class="mt-1 block w-full"
                 />
-                <p class="text-xs mt-1 text-gray-500">Used for log in to system. Ask your supervisor if you want to change it.</p>
+                <p class="text-xs mt-1 text-gray-500" v-if="['foreman', 'serviceman'].includes($page.props.user.role)">Used for log in to system. Ask your supervisor if you want to change it.</p>
                 <JetInputError :message="form.errors.salary_number" class="mt-2" />
             </div>
 

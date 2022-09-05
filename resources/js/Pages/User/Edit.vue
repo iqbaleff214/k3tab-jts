@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import Breadcrumb from '@/Components/Breadcrumb.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
 import EditUserForm from './Partials/EditUserForm.vue';
+import EditDirectSuperiorForm from './Partials/EditDirectSuperiorForm.vue';
 
 const props = defineProps({
     data: Object,
@@ -26,6 +27,12 @@ const breadcrumbs = [
 
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
             <EditUserForm :user="$page.props.data" />
+
+            <div v-if="data.role == 'serviceman' || (['serviceman', 'foreman'].includes(data.role) && $page.props.user.role == 'superadmin')">
+                <SectionBorder />
+
+                <EditDirectSuperiorForm :user="$page.props.data" />
+            </div>
         </div>
     </AppLayout>
 </template>

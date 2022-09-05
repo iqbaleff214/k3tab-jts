@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -80,6 +81,8 @@ class UserController extends Controller
     {
         return Inertia::render('User/Edit', [
             'data' => $user,
+            'supervisors' => User::role(Role::SUPERVISOR)->get(),
+            'foremen' => User::role(Role::FOREMAN)->get(),
         ]);
     }
 

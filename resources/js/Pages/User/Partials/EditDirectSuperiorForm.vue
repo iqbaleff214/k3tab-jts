@@ -13,6 +13,8 @@
         user: Object
     });
 
+    const selected = ref(null);
+
     const form = useForm({
         id: props.user.id,
         name: props.user.name,
@@ -23,44 +25,47 @@
         superior_id: props.user.superior_id,
     });
 
-    const optionRoles = [
-        { value: 'superadmin', option: 'Superadmin', },
-        { value: 'supervisor', option: 'Supervisor', },
-        { value: 'foreman', option: 'Foreman', },
-        { value: 'serviceman', option: 'Serviceman', },
-    ];
-
     const updateUser = () => {
         form.put(route('users.update', props.user.id));
     };
 
-    onBeforeMount(() => {
-        if (usePage().props.value.user.role != 'superadmin') {
-            optionRoles.shift();
+    const onSelected = (event) => changeSuperior(event.target.value);
+
+    const changeSuperior = (id) => {
+        if (form.role == 'serviceman') {
+            const foreman = usePage().props.value.foremen.find(f => f.id == id);
+            selected.value = foreman;
+        } else {
+            const supervisor = usePage().props.value.supervisors.find(s => s.id == id);
+            selected.value = supervisor;
         }
-    });
+    }
+
+    onBeforeMount(() => {
+        changeSuperior(props.user.superior_id);
+    })
     </script>
 
     <template>
         <FormSection @submitted="updateUser">
             <template #title>
-                Edit User
+                Edit Direct Superior
             </template>
 
             <template #description>
-                Edit your subordinate data.
+                Select your subordinate's direct superior.
             </template>
 
             <template #form>
 
                 <div class="col-span-6 sm:col-span-4">
                     <Label for="name" value="Name" />
-                    <Input
-                        id="name"
-                        v-model="form.name"
-                        type="text"
-                        class="mt-1 block w-full"
-                    />
+                    <select v-if="form.role == 'serviceman'" @change="onSelected($event)" v-model="form.superior_id" id="superior_id" class="border-gray-300 mt-1 block w-full focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                        <option v-for="foreman in $page.props.foremen" :key="foreman.id" :value="foreman.id">{{ foreman.name }}</option>
+                    </select>
+                    <select v-else @change="onSelected($event)" v-model="form.superior_id" id="superior_id" class="border-gray-300 mt-1 block w-full focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                        <option v-for="supervisor in $page.props.supervisors" :key="supervisor.id" :value="supervisor.id">{{ supervisor.name }}</option>
+                    </select>
                     <InputError :message="form.errors.name" class="mt-2" />
                 </div>
 
@@ -68,44 +73,44 @@
                     <Label for="salary_number" value="Salary Number" />
                     <Input
                         id="salary_number"
-                        v-model="form.salary_number"
+                        :value="selected?.salary_number"
+                        disabled
                         type="text"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full bg-gray-100"
                     />
-                    <InputError :message="form.errors.salary_number" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4" v-if="['superadmin', 'supervisor'].includes($page.props.user.role) ">
+                <div class="col-span-6 sm:col-span-4">
                     <Label for="role" value="Role" />
-                    <InputSelect
+                    <Input
                         id="role"
-                        v-model="form.role"
-                        :options="optionRoles"
-                        class="mt-1 block w-full"
+                        :value="selected?.role"
+                        disabled
+                        type="text"
+                        class="mt-1 block w-full bg-gray-100 capitalize"
                     />
-                    <InputError :message="form.errors.role" class="mt-2" />
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
                     <Label for="phone" value="Phone Number" />
                     <Input
                         id="phone"
-                        v-model="form.phone"
+                        :value="selected?.phone"
+                        disabled
                         type="text"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full bg-gray-100"
                     />
-                    <InputError :message="form.errors.phone" class="mt-2" />
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
                     <Label for="address" value="Address" />
                     <Input
                         id="address"
-                        v-model="form.address"
+                        :value="selected?.address"
+                        disabled
                         type="text"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full bg-gray-100"
                     />
-                    <InputError :message="form.errors.address" class="mt-2" />
                 </div>
 
             </template>

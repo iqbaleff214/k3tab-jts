@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { onBeforeMount, ref } from 'vue';
     import { useForm, usePage } from '@inertiajs/inertia-vue3';
     import ActionMessage from '@/Components/ActionMessage.vue';
     import Button from '@/Components/Button.vue';
@@ -37,6 +37,13 @@
             onSuccess: () => form.reset(),
         });
     };
+
+    onBeforeMount(() => {
+        const user = usePage().props.value.user;
+        if (user.role == 'superadmin') {
+            optionRoles.unshift({ value: 'supervisor', option: 'Supervisor' });
+        }
+    });
     </script>
 
     <template>

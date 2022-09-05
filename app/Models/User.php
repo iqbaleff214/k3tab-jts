@@ -92,6 +92,11 @@ class User extends Authenticatable
         });
     }
 
+    public function scopeRole($query, Role $role)
+    {
+        return $query->where('role', $role->value);
+    }
+
     public function superior()
     {
         return $this->belongsTo(User::class, 'superior_id', 'id');
