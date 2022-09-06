@@ -52,8 +52,11 @@ const logout = () => {
                                 <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </JetNavLink>
-                                <JetNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="$page.props.user.role != 'serviceman'">
+                                <JetNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="['superadmin', 'supervisor', 'foreman'].includes($page.props.user.role)">
                                     User Management
+                                </JetNavLink>
+                                <JetNavLink :href="route('customers.index')" :active="route().current('customers.*')" v-if="['superadmin', 'supervisor'].includes($page.props.user.role)">
+                                    Customer
                                 </JetNavLink>
                             </div>
                         </div>
@@ -213,6 +216,12 @@ const logout = () => {
                     <div class="pt-2 pb-3 space-y-1">
                         <JetResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </JetResponsiveNavLink>
+                        <JetResponsiveNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="['superadmin', 'supervisor', 'foreman'].includes($page.props.user.role)">
+                            User Management
+                        </JetResponsiveNavLink>
+                        <JetResponsiveNavLink :href="route('customers.index')" :active="route().current('customers.*')" v-if="['superadmin', 'supervisor'].includes($page.props.user.role)">
+                            Customer
                         </JetResponsiveNavLink>
                     </div>
 

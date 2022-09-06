@@ -43,7 +43,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <JetLabel for="salary_number" value="Salary Number" />
+                <JetLabel for="salary_number" value="Salary Number or Customer Number" />
                 <JetInput
                     id="salary_number"
                     v-model="form.salary_number"

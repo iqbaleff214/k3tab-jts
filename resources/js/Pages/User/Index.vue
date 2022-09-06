@@ -101,7 +101,7 @@ const deleteSelected = () => {
                                     </div>
                                 </td>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ user.name }}
+                                    {{ user.name }} <span class="text-gray-400" v-if="user.id == $page.props.user.id">(You)</span>
                                     <span class="text-xs block text-gray-500" v-text="user.salary_number"></span>
                                 </th>
                                 <td class="px-6 py-4">{{ user.phone ?? '-' }}</td>

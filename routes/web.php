@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,11 @@ Route::middleware([
     Route::middleware(['role:superadmin,supervisor,foreman'])->group(function() {
         Route::delete('/users/bulk', [UserController::class, 'destroyBulk'])->name('users.destroy-bulk');
         Route::resource('/users', UserController::class);
+    });
+
+    Route::middleware(['role:superadmin,supervisor'])->group(function() {
+        Route::delete('/customers/bulk', [CustomerController::class, 'destroyBulk'])->name('customers.destroy-bulk');
+        Route::resource('/customers', CustomerController::class);
     });
 
 });

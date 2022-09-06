@@ -17,6 +17,14 @@ class StoreUserRequest extends FormRequest
         return in_array(auth()->user()->role, ['superadmin', 'supervisor']);
     }
 
+    public function attributes()
+    {
+        return [
+            'salary_number' => $this->role == 'customer' ? 'customer number' : 'salary number',
+            'name' => $this->role == 'customer' ? 'customer name' : 'name',
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,6 +37,7 @@ class StoreUserRequest extends FormRequest
             'salary_number' => ['required', Rule::unique('users')],
             'role' => 'required',
             'phone' => 'nullable',
+            'email' => 'nullable',
             'address' => 'nullable',
             'superior_id' => 'nullable',
         ];

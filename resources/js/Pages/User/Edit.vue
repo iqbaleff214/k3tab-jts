@@ -17,7 +17,7 @@ const breadcrumbs = [
 </script>
 
 <template>
-    <AppLayout title="New User">
+    <AppLayout title="Edit User">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 User Management

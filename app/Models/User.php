@@ -65,7 +65,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function scopeRender($query, $search, $page)
+    public function scopeRender($query, $search, $page, Role $role = null)
     {
         return $query
             ->with(['superior', 'subordinate'])
@@ -75,6 +75,11 @@ class User extends Authenticatable
             })
             ->when(auth()->user()->role == Role::SUPERVISOR->value, function($query) {
                 return $query->whereNotIn('role', ['supervisor', 'superadmin']);
+            })
+            ->when(is_null($role), function($query) {
+                return $query->where('role', '!=', Role::CUSTOMER->value);
+            }, function($query) use($role) {
+                return $query->where('role', $role->value);
             })
             ->paginate($page)
             ->appends([

@@ -18,6 +18,14 @@ class UpdateUserRequest extends FormRequest
         return $this->superior_id == auth()->user()->id || in_array(auth()->user()->role, ['superadmin', 'supervisor']) ;
     }
 
+    public function attributes()
+    {
+        return [
+            'salary_number' => $this->role == 'customer' ? 'customer number' : 'salary number',
+            'name' => $this->role == 'customer' ? 'customer name' : 'name',
+        ];
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -29,6 +37,7 @@ class UpdateUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'salary_number' => ['required', Rule::unique('users')->ignore($this->id)],
             'address' => 'nullable',
+            'email' => 'nullable',
             'phone' => 'nullable',
             'superior_id' => 'nullable',
         ];

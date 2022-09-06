@@ -7,4 +7,5 @@ enum Role: string {
     case SUPERVISOR     = "supervisor";
     case FOREMAN        = "foreman";
     case SERVICEMAN     = "serviceman";
+    case CUSTOMER       = "customer";
 }

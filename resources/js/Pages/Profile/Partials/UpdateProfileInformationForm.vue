@@ -146,21 +146,22 @@ const clearPhotoFileInput = () => {
 
             <!-- Salary Number -->
             <div class="col-span-6 sm:col-span-4">
-                <JetLabel for="salary_number" value="Salary Number" />
+                <JetLabel for="salary_number" :value="$page.props.user.role == 'customer' ? 'Customer Number' : 'Salary Number'" />
                 <JetInput
                     id="salary_number"
                     v-model="form.salary_number"
                     type="text"
-                    :disabled="['serviceman', 'foreman'].includes($page.props.user.role)"
-                    :class="{'bg-gray-100': ['serviceman', 'foreman'].includes($page.props.user.role)}"
+                    :disabled="['serviceman', 'foreman', 'customer'].includes($page.props.user.role)"
+                    :class="{'bg-gray-100': ['serviceman', 'foreman', 'customer'].includes($page.props.user.role)}"
                     class="mt-1 block w-full"
                 />
-                <p class="text-xs mt-1 text-gray-500" v-if="['foreman', 'serviceman'].includes($page.props.user.role)">Used for log in to system. Ask your supervisor if you want to change it.</p>
+                <p class="text-xs mt-1 text-gray-500" v-if="['serviceman', 'foreman'].includes($page.props.user.role)">Used for log in to system. Ask your supervisor if you want to change it.</p>
+                <p class="text-xs mt-1 text-gray-500" v-if="['customer'].includes($page.props.user.role)">Used for log in to system.</p>
                 <JetInputError :message="form.errors.salary_number" class="mt-2" />
             </div>
 
             <!-- Role -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-4" v-if="$page.props.user.role != 'customer'">
                 <JetLabel for="role" value="Role" />
                 <JetInput
                     id="role"
