@@ -1,5 +1,4 @@
 <script setup>
-    import { onBeforeMount, ref } from 'vue';
     import { useForm, usePage } from '@inertiajs/inertia-vue3';
     import ActionMessage from '@/Components/ActionMessage.vue';
     import Button from '@/Components/Button.vue';
@@ -19,6 +18,8 @@
     });
 
     const optionRoles = [
+        { value: 'supervisor', option: 'Supervisor', },
+        { value: 'sales_support', option: 'Sales Support', },
         { value: 'foreman', option: 'Foreman', },
         { value: 'serviceman', option: 'Serviceman', },
     ];
@@ -37,13 +38,6 @@
             onSuccess: () => form.reset(),
         });
     };
-
-    onBeforeMount(() => {
-        const user = usePage().props.value.user;
-        if (user.role == 'superadmin') {
-            optionRoles.unshift({ value: 'supervisor', option: 'Supervisor' });
-        }
-    });
     </script>
 
     <template>
@@ -59,7 +53,7 @@
             <template #form>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <Label for="name" value="Name" />
+                    <Label for="name" value="Name*" />
                     <Input
                         id="name"
                         v-model="form.name"
@@ -70,7 +64,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <Label for="salary_number" value="Salary Number" />
+                    <Label for="salary_number" value="Salary Number*" />
                     <Input
                         id="salary_number"
                         v-model="form.salary_number"
@@ -81,7 +75,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <Label for="role" value="Role" />
+                    <Label for="role" value="Role*" />
                     <InputSelect
                         id="role"
                         v-model="form.role"

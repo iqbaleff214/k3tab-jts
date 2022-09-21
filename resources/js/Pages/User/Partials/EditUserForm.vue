@@ -26,6 +26,7 @@
     const optionRoles = [
         { value: 'superadmin', option: 'Superadmin', },
         { value: 'supervisor', option: 'Supervisor', },
+        { value: 'sales_support', option: 'Sales Support', },
         { value: 'foreman', option: 'Foreman', },
         { value: 'serviceman', option: 'Serviceman', },
     ];
@@ -54,7 +55,7 @@
             <template #form>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <Label for="name" value="Name" />
+                    <Label for="name" value="Name*" />
                     <Input
                         id="name"
                         v-model="form.name"
@@ -65,7 +66,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4">
-                    <Label for="salary_number" value="Salary Number" />
+                    <Label for="salary_number" value="Salary Number*" />
                     <Input
                         id="salary_number"
                         v-model="form.salary_number"
@@ -76,7 +77,7 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-4" v-if="['superadmin', 'supervisor'].includes($page.props.user.role) ">
-                    <Label for="role" value="Role" />
+                    <Label for="role" value="Role*" />
                     <InputSelect
                         id="role"
                         v-model="form.role"

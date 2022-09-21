@@ -47,7 +47,7 @@ const storeCustomer = () => {
         <template #form>
 
             <div class="col-span-6 sm:col-span-4">
-                <Label for="salary_number" value="Customer Number" />
+                <Label for="salary_number" value="Customer Number*" />
                 <Input
                     id="salary_number"
                     v-model="form.salary_number"
@@ -58,7 +58,7 @@ const storeCustomer = () => {
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <Label for="name" value="Customer Name" />
+                <Label for="name" value="Customer Name*" />
                 <Input
                     id="name"
                     v-model="form.name"

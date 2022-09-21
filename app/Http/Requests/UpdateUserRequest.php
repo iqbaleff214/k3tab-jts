@@ -15,7 +15,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->superior_id == auth()->user()->id || in_array(auth()->user()->role, ['superadmin', 'supervisor']) ;
+        return auth()->user()->role == Role::SUPERADMIN->value;
     }
 
     public function attributes()

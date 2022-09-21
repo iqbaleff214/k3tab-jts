@@ -52,10 +52,13 @@ const logout = () => {
                                 <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </JetNavLink>
-                                <JetNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="['superadmin', 'supervisor', 'foreman'].includes($page.props.user.role)">
+                                <JetNavLink :href="route('service-orders.index')" :active="route().current('service-orders.*') || route().current('control-cards.*')">
+                                    Service Order
+                                </JetNavLink>
+                                <JetNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="['superadmin'].includes($page.props.user.role)">
                                     User Management
                                 </JetNavLink>
-                                <JetNavLink :href="route('customers.index')" :active="route().current('customers.*')" v-if="['superadmin', 'supervisor'].includes($page.props.user.role)">
+                                <JetNavLink :href="route('customers.index')" :active="route().current('customers.*')" v-if="['superadmin'].includes($page.props.user.role)">
                                     Customer
                                 </JetNavLink>
                             </div>
@@ -217,10 +220,13 @@ const logout = () => {
                         <JetResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </JetResponsiveNavLink>
-                        <JetResponsiveNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="['superadmin', 'supervisor', 'foreman'].includes($page.props.user.role)">
+                        <JetResponsiveNavLink :href="route('service-orders.index')" :active="route().current('service-orders.*') || route().current('control-cards.*')">
+                            Service Order
+                        </JetResponsiveNavLink>
+                        <JetResponsiveNavLink :href="route('users.index')" :active="route().current('users.*')" v-if="['superadmin'].includes($page.props.user.role)">
                             User Management
                         </JetResponsiveNavLink>
-                        <JetResponsiveNavLink :href="route('customers.index')" :active="route().current('customers.*')" v-if="['superadmin', 'supervisor'].includes($page.props.user.role)">
+                        <JetResponsiveNavLink :href="route('customers.index')" :active="route().current('customers.*')" v-if="['superadmin'].includes($page.props.user.role)">
                             Customer
                         </JetResponsiveNavLink>
                     </div>

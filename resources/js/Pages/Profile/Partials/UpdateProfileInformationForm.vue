@@ -151,11 +151,11 @@ const clearPhotoFileInput = () => {
                     id="salary_number"
                     v-model="form.salary_number"
                     type="text"
-                    :disabled="['serviceman', 'foreman', 'customer'].includes($page.props.user.role)"
-                    :class="{'bg-gray-100': ['serviceman', 'foreman', 'customer'].includes($page.props.user.role)}"
+                    :disabled="['serviceman', 'foreman', 'customer', 'sales_support', 'supervisor'].includes($page.props.user.role)"
+                    :class="{'bg-gray-100': ['serviceman', 'foreman', 'customer', 'sales_support', 'supervisor'].includes($page.props.user.role)}"
                     class="mt-1 block w-full"
                 />
-                <p class="text-xs mt-1 text-gray-500" v-if="['serviceman', 'foreman'].includes($page.props.user.role)">Used for log in to system. Ask your supervisor if you want to change it.</p>
+                <p class="text-xs mt-1 text-gray-500" v-if="['serviceman', 'foreman', 'sales_support', 'supervisor'].includes($page.props.user.role)">Used for log in to system. Ask superadmin if you want to change it.</p>
                 <p class="text-xs mt-1 text-gray-500" v-if="['customer'].includes($page.props.user.role)">Used for log in to system.</p>
                 <JetInputError :message="form.errors.salary_number" class="mt-2" />
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreControlCardRequest extends FormRequest
@@ -13,7 +14,7 @@ class StoreControlCardRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->role == Role::SERVICEMAN->value && $this->serviceman_id == auth()->user()->id;
     }
 
     /**
@@ -24,7 +25,11 @@ class StoreControlCardRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'date' => 'required',
+            'special_note' => 'required|string',
+            'is_approved' => 'boolean',
+            'service_order_id' => 'required',
+            'serviceman_id' => 'required',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Role;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -14,7 +15,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return in_array(auth()->user()->role, ['superadmin', 'supervisor']);
+        return auth()->user()->role == Role::SUPERADMIN->value;
     }
 
     public function attributes()

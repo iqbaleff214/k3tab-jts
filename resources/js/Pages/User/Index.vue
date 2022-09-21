@@ -36,8 +36,8 @@ const closeDeleteModal = () => showDeleteModal.value = false;
 
 const columns = [
     'Name',
-    'Phone',
     'Role',
+    'Phone',
     'Direct Superior',
 ];
 
@@ -104,11 +104,11 @@ const deleteSelected = () => {
                                     {{ user.name }} <span class="text-gray-400" v-if="user.id == $page.props.user.id">(You)</span>
                                     <span class="text-xs block text-gray-500" v-text="user.salary_number"></span>
                                 </th>
+                                <td class="px-6 py-4 capitalize">{{ user.role.replace('_', ' ') }}</td>
                                 <td class="px-6 py-4">{{ user.phone ?? '-' }}</td>
-                                <td class="px-6 py-4 capitalize">{{ user.role }}</td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
                                     {{ user.superior?.name ?? '-' }} <span class="text-gray-400" v-if="user.superior?.id == $page.props.user.id">(You)</span>
-                                    <span class="text-xs block text-gray-500" v-if="user.superior" v-text="user.salary_number"></span>
+                                    <span class="text-xs block text-gray-500" v-if="user.superior" v-text="user.superior?.salary_number"></span>
                                 </td>
                                 <td class="px-6 py-4 text-right" v-if="['superadmin', 'supervisor'].includes($page.props.user.role)">
                                     <Link class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline" :href="route('users.edit', user.id)">

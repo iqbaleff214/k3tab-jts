@@ -65,6 +65,16 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
                 'superior_id' => 3,
             ],
+            [
+                'id' => 5,
+                'name' => 'Sales Support',
+                'salary_number' => '000000004',
+                'password' => Hash::make('admin'),
+                'role' => Role::SALES,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'superior_id' => 2,
+            ],
         ];
 
         // var_dump($users);

@@ -8,4 +8,5 @@ enum Role: string {
     case FOREMAN        = "foreman";
     case SERVICEMAN     = "serviceman";
     case CUSTOMER       = "customer";
+    case SALES          = "sales_support";
 }
