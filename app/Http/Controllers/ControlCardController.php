@@ -9,6 +9,7 @@ use App\Models\ControlCard;
 use App\Models\ServiceOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ControlCardController extends Controller
@@ -54,7 +55,14 @@ class ControlCardController extends Controller
             if ($service_order->status == ServiceOrderStatus::TO_DO->value) {
                 $service_order->update(['status' => ServiceOrderStatus::IN_PROGRESS]);
             }
-            ControlCard::create($request->validated());
+            $cc = ControlCard::create($request->validated());
+            if ($request->hasFile('file')) {
+                $fileName = time() . '_' . $request->file('file')->getClientOriginalName();
+                $cc->attachments()->create([
+                    'path' => asset('storage/' . $fileName),
+                ]);
+                Storage::putFileAs('public', $request->file('file'), $fileName);
+            }
             DB::commit();
             return redirect()
                 ->route('control-cards.index', $service_order->id)

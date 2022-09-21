@@ -50,7 +50,7 @@ return new class extends Migration
             $table->boolean('signed_1')->default(false);
             $table->boolean('signed_2')->default(false);
             $table->string('status')->default('todo');
-            $table->foreignId('customer_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('customer_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('supervisor_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('foreman_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('serviceman_id')->nullable()->constrained('users')->cascadeOnDelete();

@@ -45,7 +45,10 @@ const columns = [
     'Date',
     'Note',
     'Serviceman',
+    'Attachment',
 ];
+
+const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 
 const breadcrumbs = [
     { label: 'Service Order', url: route('service-orders.index') },
@@ -136,6 +139,10 @@ onBeforeMount(() => {
                                 </th>
                                 <td class="px-6 py-4">{{ card.special_note ?? '-' }}</td>
                                 <td class="px-6 py-4">{{ card.reporter?.name ?? '-' }}</td>
+                                <td class="px-6 py-4" v-if="card.attachments.length">
+                                    <a :href="card.attachments[0].path" class="text-xs text-orange-500" target="_blank">Open in New Tab</a>
+                                </td>
+                                <td class="px-6 py-4" v-else>No</td>
                                 <td class="px-6 py-4" v-if="['serviceman', 'foreman'].includes($page.props.user.role)">{{ card.is_approved ? 'Yes' : 'No' }}</td>
                                 <td class="px-6 py-4" v-if="['serviceman', 'foreman', 'supervisor'].includes($page.props.user.role)">{{ card.is_accepted ? 'Yes' : 'No' }}</td>
                                 <!-- <td class="px-6 py-4 text-right" v-if="['serviceman'].includes($page.props.user.role) && card.serviceman_id == $page.props.user.id">

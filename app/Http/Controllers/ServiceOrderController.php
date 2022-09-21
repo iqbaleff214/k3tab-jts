@@ -37,7 +37,6 @@ class ServiceOrderController extends Controller
     public function create()
     {
         return Inertia::render('ServiceOrder/Create', [
-            'customers' => User::role(Role::CUSTOMER)->get(),
             'foremen' => User::role(Role::FOREMAN)->get(),
         ]);
     }
@@ -53,18 +52,6 @@ class ServiceOrderController extends Controller
         try {
             $data = $request->validated();
             $data['supervisor_id'] = auth()->user()->id;
-
-            if ($request->new_customer) {
-                $customer = User::updateOrCreate([
-                    'salary_number' => $data['customer_no'],
-                ], [
-                    'name' => $data['customer_name'],
-                    'password' => Hash::make($data['customer_no']),
-                    'role' => Role::CUSTOMER,
-                ]);
-
-                $data['customer_id'] = $customer->id;
-            }
 
             ServiceOrder::create($data);
 
@@ -103,6 +90,7 @@ class ServiceOrderController extends Controller
         return Inertia::render('ServiceOrder/Edit', [
             'data' => $service_order,
             'servicemen' => auth()->user()->subordinate()->role(Role::SERVICEMAN)->get(),
+            'customers' => User::role(Role::CUSTOMER)->get(),
         ]);
     }
 
@@ -117,8 +105,21 @@ class ServiceOrderController extends Controller
     {
         try {
             $data = $request->validated();
+            
             if ($data['progress_percentage'] == 100) {
                 $data['status'] = ServiceOrderStatus::DONE;
+            }
+
+            if ($request->new_customer) {
+                $customer = User::updateOrCreate([
+                    'salary_number' => $data['customer_no'],
+                ], [
+                    'name' => $data['customer_name'],
+                    'password' => Hash::make($data['customer_no']),
+                    'role' => Role::CUSTOMER,
+                ]);
+
+                $data['customer_id'] = $customer->id;
             }
 
             $service_order->update($data);

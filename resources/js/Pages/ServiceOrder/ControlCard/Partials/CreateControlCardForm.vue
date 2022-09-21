@@ -7,10 +7,36 @@ import Input from '@/Components/Input.vue';
 import InputSelect from '@/Components/InputSelect.vue';
 import InputError from '@/Components/InputError.vue';
 import Label from '@/Components/Label.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import { ref } from '@vue/reactivity';
 
 const props = defineProps({
     so: Object,
 });
+
+const fileName = ref(null);
+const fileInput = ref(null);
+const filePreview = ref(null);
+
+const uploadFile = (event) => {
+    const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    const file = event.target.files[0];
+
+    form.file = file;
+
+    if (!file) return;
+
+    if (imageExt.exec(file.name)) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            filePreview.value = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    fileName.value = file.name;
+}
 
 const form = useForm({
     date: new Date().toISOString().slice(0, 10),
@@ -18,6 +44,7 @@ const form = useForm({
     is_approved: false,
     service_order_id: props.so.id,
     serviceman_id: props.so.serviceman_id,
+    file: null,
 });
 
 const storeControlCard = () => {
@@ -62,6 +89,19 @@ const storeControlCard = () => {
                 />
                 <InputError :message="form.errors.special_note" class="mt-2" />
             </div>
+
+
+            <div class="col-span-6 sm:col-span-4">
+                <SecondaryButton class="mt-2 mr-2" type="button" @click.prevent="() => fileInput.click()">
+                    Upload Attachment
+                </SecondaryButton>
+                <p class="text-xs mt-1 text-gray-500">{{ fileName }}</p>
+                <InputError :message="form.errors.file" class="mt-2" />
+                <div v-show="filePreview" class="mt-2">
+                    <img :src="filePreview" alt="Attachment" class="w-full rounded-lg">
+                </div>
+            </div>
+            <input type="file" @input="uploadFile($event)" class="hidden" ref="fileInput" />
 
         </template>
 

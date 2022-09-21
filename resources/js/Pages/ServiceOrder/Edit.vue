@@ -27,16 +27,18 @@ const breadcrumbs = [
         </template>
 
         <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            <EditServiceOrderForm :serviceOrder="$page.props.data" v-if="['supervisor'].includes($page.props.user.role)" />
-            <div v-else>
-                <div class="mb-4" v-if="data.status == 'in_progress'">
-                    <ProgressPercentageForm :serviceOrder="$page.props.data" />
+            <div class="mb-4" v-if="['foreman'].includes($page.props.user.role)">
+                <EditServiceOrderForm :serviceOrder="$page.props.data" />
 
-                    <SectionBorder />
-                </div>
-
-                <ServicemenForm :serviceOrder="$page.props.data" :user="$page.props.servicemen" />
+                <SectionBorder />
             </div>
+            <div class="mb-4" v-if="data.status == 'in_progress'">
+                <ProgressPercentageForm :serviceOrder="$page.props.data" />
+
+                <SectionBorder />
+            </div>
+
+            <ServicemenForm :serviceOrder="$page.props.data" :user="$page.props.servicemen" />
         </div>
     </AppLayout>
 </template>

@@ -68,12 +68,14 @@ const breadcrumbs = [
     { label: 'Service Order', url: null },
 ];
 
+const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
 const onSearch = (keyword) => {
     Inertia.get(route("service-orders.index"), { search: keyword, status: props.status }, { preserveState: true, preserveScroll: true });
 }
 
-const onSelectStatus = () => {
-    Inertia.get(route("service-orders.index"), { search: props.search, status: props.status }, { preserveState: true, preserveScroll: true });
+const onSelectStatus = (e) => {
+    Inertia.get(route("service-orders.index"), { search: props.search, status:e.target.value }, { preserveState: true, preserveScroll: true });
 }
 
 const deleteSelected = () => {
@@ -111,12 +113,12 @@ const markAsDoneSelected = () => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <Table :columns="columns" :checkbox="['supervisor'].includes($page.props.user.role)" :action="['supervisor', 'foreman'].includes($page.props.user.role)" @selectAllToggle="selectAll" :checkboxState="isSelectedAll">
+                    <Table :columns="columns" :checkbox="['supervisor'].includes($page.props.user.role)" :action="['foreman'].includes($page.props.user.role)" @selectAllToggle="selectAll" :checkboxState="isSelectedAll">
                         <template #header>
                             <div class="flex items-center justify-between">
                                 <div class="flex flex-row space-x2">
                                     <TableSearch placeholder="SO No or Customer" :search="search" @search="onSearch" />
-                                    <select v-model="status" @change="onSelectStatus" id="group" class="border-gray-300 mt-1 block w-3/4 hidden md:block text-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                                    <select v-model="status" @change="onSelectStatus($event)" id="group" class="border-gray-300 mt-1 block w-3/4 hidden md:block text-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                                         <option :value="null">All Status</option>
                                         <option v-for="status in statuses" :key="status.value" :value="status.value">{{ status.name }}</option>
                                     </select>
@@ -146,13 +148,13 @@ const markAsDoneSelected = () => {
                                 <th scope="row" class="px-6 py-4 font-medium text-orange-500 cursor-pointer dark:text-white whitespace-nowrap">
                                     <span v-text="so.service_order_no" @click="openDetailModal(so)"></span>
                                 </th>
-                                <td class="px-6 py-4">{{ so.customer_name }}</td>
+                                <td class="px-6 py-4">{{ so.customer_name ?? '-' }}</td>
                                 <td class="px-6 py-4">{{ so.serviceman ? so.serviceman?.name : '-' }}</td>
                                 <td class="px-6 py-4">{{ so.service_order_status }}</td>
                                 <td class="px-6 py-4" v-if="['customer', 'sales_support'].includes($page.props.user.role)">{{ so.control_card_accepted?.length }}</td>
                                 <td class="px-6 py-4" v-else-if="$page.props.user.role == 'supervisor'">{{ `${so.control_card_accepted?.length}/${so.control_card_approved?.length}` }}</td>
                                 <td class="px-6 py-4" v-else>{{ `${so.control_card_accepted?.length}/${so.control_card?.length}` }}</td>
-                                <td class="px-6 py-4 text-right" v-if="['supervisor', 'foreman'].includes($page.props.user.role)">
+                                <td class="px-6 py-4 text-right" v-if="['foreman'].includes($page.props.user.role)">
                                     <Link class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline" :href="route('service-orders.edit', so.id)">
                                         Edit
                                     </Link>
@@ -191,6 +193,10 @@ const markAsDoneSelected = () => {
                             <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
                             <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
+                            <div v-if="timeline.attachments.length">
+                                <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
+                                <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
+                            </div>
                         </li>
                     </ol>
                     <ol class="relative border-l border-gray-200 dark:border-gray-700" v-else>
@@ -199,6 +205,10 @@ const markAsDoneSelected = () => {
                             <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
                             <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
+                            <div v-if="timeline.attachments.length">
+                                <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
+                                <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
+                            </div>
                             <p>
                                 <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900" :class="{
                                     'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900': timeline?.is_approved

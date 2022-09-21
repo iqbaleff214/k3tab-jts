@@ -14,7 +14,8 @@ class PageController extends Controller
         $soLoad = [
             'foreman', 'serviceman', 'servicemen', 'supervisor',
             'controlCard', 'controlCardApproved', 'controlCardAccepted',
-            'controlCard.reporter', 'controlCardApproved.reporter', 'controlCardAccepted.reporter'
+            'controlCard.reporter', 'controlCardApproved.reporter', 'controlCardAccepted.reporter',
+            'controlCard.attachments', 'controlCardApproved.attachments', 'controlCardAccepted.attachments',
         ];
         return Inertia::render('Dashboard', [
             'so' => [

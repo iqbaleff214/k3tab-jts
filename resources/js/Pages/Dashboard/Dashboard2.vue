@@ -4,6 +4,8 @@ import { ref } from '@vue/reactivity';
 import DialogModal from '@/Components/DialogModal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 
+const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
 const selectedServiceOrder = ref({});
 const showDetailModal = ref(false);
 
@@ -54,6 +56,10 @@ const closeDetailModal = () => showDetailModal.value = false;
                         <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
                         <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
+                        <div v-if="timeline.attachments?.length">
+                            <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
+                            <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
+                        </div>
                     </li>
                 </ol>
                 <ol class="relative border-l border-gray-200 dark:border-gray-700" v-else>
@@ -62,6 +68,10 @@ const closeDetailModal = () => showDetailModal.value = false;
                         <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
                         <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
+                        <div v-if="timeline.attachments?.length">
+                            <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
+                            <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
+                        </div>
                         <p>
                             <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900" :class="{
                                 'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900': timeline?.is_approved

@@ -37,7 +37,12 @@ class ServiceOrder extends Model
     public function scopeRender($query, $search, $page, $status)
     {
         return $query
-            ->with(['foreman', 'serviceman', 'servicemen', 'supervisor', 'controlCard', 'controlCardApproved', 'controlCardAccepted', 'controlCard.reporter', 'controlCardApproved.reporter', 'controlCardAccepted.reporter'])
+            ->with([
+                'foreman', 'serviceman', 'servicemen', 'supervisor',
+                'controlCard', 'controlCardApproved', 'controlCardAccepted',
+                'controlCard.reporter', 'controlCardApproved.reporter', 'controlCardAccepted.reporter',
+                'controlCard.attachments', 'controlCardApproved.attachments', 'controlCardAccepted.attachments',
+            ])
             ->search($search)
             ->byRole()
             ->when($status, fn($q) => $q->where('status', $status))
