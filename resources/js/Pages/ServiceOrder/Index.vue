@@ -9,8 +9,8 @@ import TableSearch from '@/Components/TableSearch.vue';
 import Pagination from '@/Components/Pagination.vue';
 import DialogModal from '@/Components/DialogModal.vue';
 import Checkbox from '@/Components/Checkbox.vue';
-import { computed, ref } from '@vue/runtime-core';
-import { Link } from '@inertiajs/inertia-vue3';
+import { computed, onBeforeMount, ref } from '@vue/runtime-core';
+import { Link, usePage } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
@@ -50,13 +50,13 @@ const closeDoneModal = () => showDoneModal.value = false;
 const openDeleteModal = () => showDeleteModal.value = true;
 const closeDeleteModal = () => showDeleteModal.value = false;
 
-const columns = [
+const columns = ref([
     'Service Order No',
     'Customer',
     'Serviceman',
     'Status',
     'Approved Progress',
-];
+]);
 
 const statuses = [
     { name: 'To Do', value: 'todo' },
@@ -69,6 +69,19 @@ const breadcrumbs = [
 ];
 
 const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+onBeforeMount(() => {
+    const user = usePage().props.value.user;
+    if (['customer'].includes(user.role)) {
+        columns.value = [
+            'Service Order No',
+            'Serial Number',
+            'Model',
+            'Status',
+            'Progress',
+        ];
+    }
+});
 
 const onSearch = (keyword) => {
     Inertia.get(route("service-orders.index"), { search: keyword, status: props.status }, { preserveState: true, preserveScroll: true });
@@ -119,7 +132,7 @@ const markAsDoneSelected = () => {
                                 <div class="flex flex-row space-x2">
                                     <TableSearch placeholder="SO No or Customer" :search="search" @search="onSearch" />
                                     <select v-model="status" @change="onSelectStatus($event)" id="group" class="border-gray-300 mt-1 block w-3/4 hidden md:block text-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                        <option :value="null">All Status</option>
+                                        <option value="">All Status</option>
                                         <option v-for="status in statuses" :key="status.value" :value="status.value">{{ status.name }}</option>
                                     </select>
                                 </div>
@@ -148,10 +161,29 @@ const markAsDoneSelected = () => {
                                 <th scope="row" class="px-6 py-4 font-medium text-orange-500 cursor-pointer dark:text-white whitespace-nowrap">
                                     <span v-text="so.service_order_no" @click="openDetailModal(so)"></span>
                                 </th>
-                                <td class="px-6 py-4">{{ so.customer_name ?? '-' }}</td>
-                                <td class="px-6 py-4">{{ so.serviceman ? so.serviceman?.name : '-' }}</td>
+                                <td class="px-6 py-4" v-if="['customer'].includes($page.props.user.role)">{{ so.serial_number ?? '-' }}</td>
+                                <td class="px-6 py-4" v-else>{{ so.customer_name ?? '-' }}</td>
+
+                                <td class="px-6 py-4" v-if="['customer'].includes($page.props.user.role)">{{ so.model ?? '-' }}</td>
+                                <td class="px-6 py-4" v-else>{{ so.serviceman ? so.serviceman?.name : '-' }}</td>
+
                                 <td class="px-6 py-4">{{ so.service_order_status }}</td>
-                                <td class="px-6 py-4" v-if="['customer', 'sales_support'].includes($page.props.user.role)">{{ so.control_card_accepted?.length }}</td>
+                                <td class="px-6 py-4" v-if="['customer', 'sales_support'].includes($page.props.user.role)">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-xs font-medium text-gray-700 dark:text-white">Last updated: {{ new Date(so.updated_at).toLocaleString('id-ID') }}</span>
+                                        <span class="text-sm font-medium text-gray-700 dark:text-white">45%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                                        <div
+                                            :class="{
+                                                'bg-red-500': so.progress_percentage < 20 && so.progress_percentage >= 0,
+                                                'bg-orange-500': so.progress_percentage < 60 && so.progress_percentage >= 20,
+                                                'bg-yellow-400': so.progress_percentage < 80 && so.progress_percentage >= 60,
+                                                'bg-green-500': so.progress_percentage < 100 && so.progress_percentage >= 80,
+                                            }"
+                                            class="h-2.5 rounded-full shim-green" :style="{width: `${so.progress_percentage}%`}"></div>
+                                    </div>
+                                </td>
                                 <td class="px-6 py-4" v-else-if="$page.props.user.role == 'supervisor'">{{ `${so.control_card_accepted?.length}/${so.control_card_approved?.length}` }}</td>
                                 <td class="px-6 py-4" v-else>{{ `${so.control_card_accepted?.length}/${so.control_card?.length}` }}</td>
                                 <td class="px-6 py-4 text-right" v-if="['foreman'].includes($page.props.user.role)">

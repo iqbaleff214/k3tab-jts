@@ -32,8 +32,17 @@ const closeDetailModal = () => showDetailModal.value = false;
                             <p class="text-sm font-medium cursor-pointer text-yellow-600 truncate dark:text-white" @click="openDetailModal(so)">
                                 {{ so.service_order_no }}
                             </p>
-                            <div class="w-full bg-gray-200 h-4 mt-2 rounded-full dark:bg-gray-700">
-                                <div class="bg-orange-500 text-xs h-4 font-medium text-orange-100 text-center p-0.5 leading-none rounded-full" :style="{width: `${so.progress_percentage}%`}"> {{ so.progress_percentage }}%</div>
+                            <div class="w-full bg-gray-300 h-6 mt-2 rounded-full dark:bg-gray-700">
+                                <div
+                                    :class="{
+                                        'bg-red-500': so.progress_percentage < 20 && so.progress_percentage >= 0,
+                                        'bg-orange-500': so.progress_percentage < 60 && so.progress_percentage >= 20,
+                                        'bg-yellow-400': so.progress_percentage < 80 && so.progress_percentage >= 60,
+                                        'bg-green-500': so.progress_percentage < 100 && so.progress_percentage >= 80,
+                                    }"
+                                    class="bg-orange-500 text-xs h-6 shim-green font-semibold text-orange-100 text-center p-1.5 leading-none rounded-full"
+                                    :style="{width: `${so.progress_percentage}%`}"> {{ so.progress_percentage }}%</div>
+                                <p class="text-xs mt-1 text-gray-500">Last updated: {{ new Date(so.updated_at).toLocaleString('id-ID') }}</p>
                             </div>
                         </div>
                     </div>

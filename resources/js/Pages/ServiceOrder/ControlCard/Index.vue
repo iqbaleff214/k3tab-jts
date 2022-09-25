@@ -41,12 +41,12 @@ const closeDeleteModal = () => showDeleteModal.value = false;
 const openStatusModal = () => showStatusModal.value = true;
 const closeStatusModal = () => showStatusModal.value = false;
 
-const columns = [
+const columns = ref([
     'Date',
     'Note',
     'Serviceman',
     'Attachment',
-];
+]);
 
 const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
 
@@ -85,10 +85,10 @@ const approveSelected = () => {
 onBeforeMount(() => {
     const user = usePage().props.value.user;
     if (['serviceman', 'foreman'].includes(user.role)) {
-        columns.push('Foreman Approved?');
-        columns.push('Supervisor Approved?');
+        columns.value.push('Foreman Approved?');
+        columns.value.push('Supervisor Approved?');
     } else if(['supervisor'].includes(user.role)) {
-        columns.push('Approved?');
+        columns.value.push('Approved?');
     }
 });
 
