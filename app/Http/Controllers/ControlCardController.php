@@ -21,6 +21,7 @@ class ControlCardController extends Controller
      */
     public function index(Request $request, ServiceOrder $service_order)
     {
+        dd($service_order->controlCard()->all());
         $service_order->load(['foreman', 'serviceman', 'servicemen', 'supervisor']);
         $page = $request->number ?? 5;
         return Inertia::render('ServiceOrder/ControlCard/Index', [
