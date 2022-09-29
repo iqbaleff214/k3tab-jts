@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateServiceOrderRequest;
 use App\Models\ServiceOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
@@ -105,7 +106,7 @@ class ServiceOrderController extends Controller
     {
         try {
             $data = $request->validated();
-            
+            DB::beginTransaction();
             if ($data['progress_percentage'] == 100) {
                 $data['status'] = ServiceOrderStatus::DONE;
             }
@@ -124,14 +125,21 @@ class ServiceOrderController extends Controller
 
             $service_order->update($data);
             if ($request->assign_serviceman && auth()->user()->role == Role::FOREMAN->value && $request->serviceman_id) {
-                $service_order->servicemen()->syncWithoutDetaching([$request->serviceman_id]);
+                // $service_order->servicemen()->syncWithoutDetaching([$request->serviceman_id]);
+                DB::table('service_order_user')->insert([
+                    'user_id' => $request->serviceman_id,
+                    'service_order_id' => $service_order->id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
-
+            DB::commit();
             return redirect()
                 ->back()
                 ->with('flash.banner', 'Success!')
                 ->with('flash.bannerStyle', 'success');
         } catch (\Throwable $th) {
+            DB::rollBack();
             return redirect()
                 ->back()
                 ->with('flash.banner', $th->getMessage())
