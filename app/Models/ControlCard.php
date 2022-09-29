@@ -24,7 +24,7 @@ class ControlCard extends Model
             ->search($search)
             ->when(in_array(auth()->user()->role, ['customer', 'sales_support']), fn($q) => $q->where('is_approved', true)->where('is_accepted', true))
             ->when(auth()->user()->role == Role::SUPERVISOR->value, fn($q) => $q->where('is_approved', true))
-            ->oldest()
+            ->orderBy('created_at')
             ->paginate($page)
             ->appends([
                 'search' => $search,
