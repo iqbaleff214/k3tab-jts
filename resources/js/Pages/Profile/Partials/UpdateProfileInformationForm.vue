@@ -91,7 +91,7 @@ const clearPhotoFileInput = () => {
 
         <template #form>
             <!-- Profile Photo -->
-            <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
+            <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-6">
                 <!-- Profile Photo File Input -->
                 <input
                     ref="photoInput"
@@ -132,7 +132,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Name -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <JetLabel for="name" value="Name" />
                 <JetInput
                     id="name"
@@ -145,7 +145,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Salary Number -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <JetLabel for="salary_number" :value="$page.props.user.role == 'customer' ? 'Customer Number' : 'Salary Number'" />
                 <JetInput
                     id="salary_number"
@@ -161,7 +161,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Role -->
-            <div class="col-span-6 sm:col-span-4" v-if="$page.props.user.role != 'customer'">
+            <div class="col-span-6 sm:col-span-6" v-if="$page.props.user.role != 'customer'">
                 <JetLabel for="role" value="Role" />
                 <JetInput
                     id="role"
@@ -174,7 +174,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Email -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <JetLabel for="email" value="Email" />
                 <JetInput
                     id="email"
@@ -206,7 +206,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Phone Number -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <JetLabel for="phone" value="Phone Number" />
                 <JetInput
                     id="phone"
@@ -219,7 +219,7 @@ const clearPhotoFileInput = () => {
             </div>
 
             <!-- Address -->
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <JetLabel for="address" value="Address" />
                 <JetInput
                     id="address"

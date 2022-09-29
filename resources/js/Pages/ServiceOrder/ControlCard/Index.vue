@@ -219,7 +219,7 @@ onBeforeMount(() => {
                             <td>{{ so?.segment ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">operation</th>
+                            <th class="capitalize px-6 py-4 font-medium">equipment number</th>
                             <td>{{ so?.operation ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -227,7 +227,7 @@ onBeforeMount(() => {
                             <td>{{ so?.job_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">component code</th>
+                            <th class="capitalize px-6 py-4 font-medium">component name</th>
                             <td>{{ so?.component_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -238,20 +238,12 @@ onBeforeMount(() => {
                             <th class="capitalize px-6 py-4 font-medium">warranty?</th>
                             <td>{{ so?.warranty ? 'Yes' : 'No' }}</td>
                         </tr>
-                        <tr class="hover:bg-gray-50" v-if="so?.warranty">
-                            <th class="capitalize px-6 py-4 font-medium">warranty</th>
-                            <td>{{ so?.warranty_text ?? '-' }}</td>
-                        </tr>
                         <tr class="hover:bg-gray-50">
                             <th class="capitalize px-6 py-4 font-medium">pip/psp</th>
                             <td>{{ so?.pip_psp ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">job control</th>
-                            <td>{{ so?.job_control ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">business area</th>
+                            <th class="capitalize px-6 py-4 font-medium">section</th>
                             <td>{{ so?.business_area ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -263,19 +255,11 @@ onBeforeMount(() => {
                             <td>{{ so?.service_team ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">group number</th>
-                            <td>{{ so?.group_number ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
                             <th class="capitalize px-6 py-4 font-medium">customer no</th>
                             <td>{{ so?.customer_no ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">make</th>
-                            <td>{{ so?.make ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">model</th>
+                            <th class="capitalize px-6 py-4 font-medium">sales model</th>
                             <td>{{ so?.model ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -283,7 +267,7 @@ onBeforeMount(() => {
                             <td>{{ so?.serial_number ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">arrg no</th>
+                            <th class="capitalize px-6 py-4 font-medium">arr. no</th>
                             <td>{{ so?.arrg_no ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -295,60 +279,8 @@ onBeforeMount(() => {
                             <td>{{ so?.job_description ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">labor hours</th>
-                            <td>{{ so?.labor_hours ?? '0' }} hours</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date sent</th>
-                            <td>{{ so?.date_sent ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date required</th>
+                            <th class="capitalize px-6 py-4 font-medium">date received</th>
                             <td>{{ so?.date_required ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date returned</th>
-                            <td>{{ so?.date_returned ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date received_back</th>
-                            <td>{{ so?.date_received_back ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date segment closed</th>
-                            <td>{{ so?.date_segment_closed ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">receive by</th>
-                            <td>{{ so?.receive_by ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">surplus part returned</th>
-                            <td>{{ so?.surplus_part_returned ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">sims completed</th>
-                            <td>{{ so?.sims_completed ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">note</th>
-                            <td>{{ so?.note ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">deliver to</th>
-                            <td>{{ so?.deliver_to ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">return to</th>
-                            <td>{{ so?.return_to ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">signed 1?</th>
-                            <td>{{ so?.signed_1 ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">signed 2?</th>
-                            <td>{{ so?.signed_2 ? 'Yes' : 'No' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
                             <th class="capitalize px-6 py-4 font-medium">servicemen</th>

@@ -42,6 +42,7 @@ const form = useForm({
     date: new Date().toISOString().slice(0, 10),
     special_note: null,
     is_approved: false,
+    is_accepted: false,
     service_order_id: props.so.id,
     serviceman_id: props.so.serviceman_id,
     file: null,
@@ -67,7 +68,7 @@ const storeControlCard = () => {
 
         <template #form>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="date" value="Date*" />
                 <Input
                     id="date"
@@ -79,7 +80,7 @@ const storeControlCard = () => {
                 <InputError :message="form.errors.date" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="special_note" value="Note*" />
                 <Input
                     id="special_note"
@@ -91,7 +92,7 @@ const storeControlCard = () => {
             </div>
 
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <SecondaryButton class="mt-2 mr-2" type="button" @click.prevent="() => fileInput.click()">
                     Upload Attachment
                 </SecondaryButton>

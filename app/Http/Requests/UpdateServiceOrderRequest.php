@@ -23,7 +23,12 @@ class UpdateServiceOrderRequest extends FormRequest
         return [
             'id' => 'service order number',
             'foreman_id' => 'foreman',
-            'serviceman_id' => 'serviceman\'s name'
+            'serviceman_id' => 'serviceman\'s name',
+            'operation' => 'equipment number',
+            'business_area' => 'section',
+            'date_required' => 'date received',
+            'model' => 'sales model',
+            'component_code' => 'component name',
         ];
     }
 
@@ -51,8 +56,8 @@ class UpdateServiceOrderRequest extends FormRequest
             'group_number' => ['nullable'],
             'customer_no' => ['required'],
             'make' => ['nullable'],
-            'model' => ['nullable'],
-            'serial_number' => ['nullable'],
+            'model' => ['required'],
+            'serial_number' => ['required'],
             'arrg_no' => ['nullable'],
             'std_hours' => ['nullable'],
             'job_description' => ['required'],

@@ -279,7 +279,7 @@ const markAsDoneSelected = () => {
                             <td>{{ selectedServiceOrder?.segment ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">operation</th>
+                            <th class="capitalize px-6 py-4 font-medium">equipment number</th>
                             <td>{{ selectedServiceOrder?.operation ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -287,7 +287,7 @@ const markAsDoneSelected = () => {
                             <td>{{ selectedServiceOrder?.job_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">component code</th>
+                            <th class="capitalize px-6 py-4 font-medium">component name</th>
                             <td>{{ selectedServiceOrder?.component_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -298,20 +298,12 @@ const markAsDoneSelected = () => {
                             <th class="capitalize px-6 py-4 font-medium">warranty?</th>
                             <td>{{ selectedServiceOrder?.warranty ? 'Yes' : 'No' }}</td>
                         </tr>
-                        <tr class="hover:bg-gray-50" v-if="selectedServiceOrder?.warranty">
-                            <th class="capitalize px-6 py-4 font-medium">warranty</th>
-                            <td>{{ selectedServiceOrder?.warranty_text ?? '-' }}</td>
-                        </tr>
                         <tr class="hover:bg-gray-50">
                             <th class="capitalize px-6 py-4 font-medium">pip/psp</th>
                             <td>{{ selectedServiceOrder?.pip_psp ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">job control</th>
-                            <td>{{ selectedServiceOrder?.job_control ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">business area</th>
+                            <th class="capitalize px-6 py-4 font-medium">section</th>
                             <td>{{ selectedServiceOrder?.business_area ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -323,19 +315,11 @@ const markAsDoneSelected = () => {
                             <td>{{ selectedServiceOrder?.service_team ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">group number</th>
-                            <td>{{ selectedServiceOrder?.group_number ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
                             <th class="capitalize px-6 py-4 font-medium">customer no</th>
                             <td>{{ selectedServiceOrder?.customer_no ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">make</th>
-                            <td>{{ selectedServiceOrder?.make ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">model</th>
+                            <th class="capitalize px-6 py-4 font-medium">sales model</th>
                             <td>{{ selectedServiceOrder?.model ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -343,7 +327,7 @@ const markAsDoneSelected = () => {
                             <td>{{ selectedServiceOrder?.serial_number ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">arrg no</th>
+                            <th class="capitalize px-6 py-4 font-medium">arr. no</th>
                             <td>{{ selectedServiceOrder?.arrg_no ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
@@ -355,60 +339,8 @@ const markAsDoneSelected = () => {
                             <td>{{ selectedServiceOrder?.job_description ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">labor hours</th>
-                            <td>{{ selectedServiceOrder?.labor_hours ?? '0' }} hours</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date sent</th>
-                            <td>{{ selectedServiceOrder?.date_sent ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date required</th>
+                            <th class="capitalize px-6 py-4 font-medium">date received</th>
                             <td>{{ selectedServiceOrder?.date_required ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date returned</th>
-                            <td>{{ selectedServiceOrder?.date_returned ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date received_back</th>
-                            <td>{{ selectedServiceOrder?.date_received_back ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date segment closed</th>
-                            <td>{{ selectedServiceOrder?.date_segment_closed ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">receive by</th>
-                            <td>{{ selectedServiceOrder?.receive_by ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">surplus part returned</th>
-                            <td>{{ selectedServiceOrder?.surplus_part_returned ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">sims completed</th>
-                            <td>{{ selectedServiceOrder?.sims_completed ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">note</th>
-                            <td>{{ selectedServiceOrder?.note ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">deliver to</th>
-                            <td>{{ selectedServiceOrder?.deliver_to ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">return to</th>
-                            <td>{{ selectedServiceOrder?.return_to ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">signed 1?</th>
-                            <td>{{ selectedServiceOrder?.signed_1 ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">signed 2?</th>
-                            <td>{{ selectedServiceOrder?.signed_2 ? 'Yes' : 'No' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
                             <th class="capitalize px-6 py-4 font-medium">servicemen</th>

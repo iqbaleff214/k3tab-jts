@@ -122,7 +122,7 @@ class ServiceOrder extends Model
 
     public function controlCard()
     {
-        return $this->hasMany(ControlCard::class);
+        return $this->hasMany(ControlCard::class)->oldest(); //->orderBy('created_at');
     }
 
     public function controlCardApproved()

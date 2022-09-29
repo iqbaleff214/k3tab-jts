@@ -12,6 +12,8 @@
         name: null,
         salary_number: null,
         role: null,
+        position: null,
+        email: null,
         address: null,
         phone: null,
         superior_id: null,
@@ -22,6 +24,11 @@
         { value: 'sales_support', option: 'Sales Support', },
         { value: 'foreman', option: 'Foreman', },
         { value: 'serviceman', option: 'Serviceman', },
+    ];
+
+    const optionPositions = [
+        { value: 'Technician', option: 'Technician' },
+        { value: 'Senior Technician', option: 'Senior Technician' },
     ];
 
     const storeUser = () => {
@@ -52,7 +59,7 @@
 
             <template #form>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="name" value="Name*" />
                     <Input
                         id="name"
@@ -63,7 +70,7 @@
                     <InputError :message="form.errors.name" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="salary_number" value="Salary Number*" />
                     <Input
                         id="salary_number"
@@ -74,7 +81,7 @@
                     <InputError :message="form.errors.salary_number" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="role" value="Role*" />
                     <InputSelect
                         id="role"
@@ -85,7 +92,18 @@
                     <InputError :message="form.errors.role" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6" v-if="form.role == 'serviceman'">
+                    <Label for="position" value="Position*" />
+                    <InputSelect
+                        id="position"
+                        v-model="form.position"
+                        :options="optionPositions"
+                        class="mt-1 block w-full"
+                    />
+                    <InputError :message="form.errors.position" class="mt-2" />
+                </div>
+
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="phone" value="Phone Number" />
                     <Input
                         id="phone"
@@ -96,7 +114,18 @@
                     <InputError :message="form.errors.phone" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
+                    <Label for="email" value="Email" />
+                    <Input
+                        id="email"
+                        v-model="form.email"
+                        type="email"
+                        class="mt-1 block w-full"
+                    />
+                    <InputError :message="form.errors.email" class="mt-2" />
+                </div>
+
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="address" value="Address" />
                     <Input
                         id="address"

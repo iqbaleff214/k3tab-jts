@@ -80,8 +80,7 @@
 
             <template #form>
 
-
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="progress_percentage" :value="`Progress Percentage`" />
                 <Input
                     id="progress_percentage"
@@ -92,10 +91,8 @@
                     class="mt-1 block w-full mb-4"
                 />
                 <input type="range" min="0" max="100" v-model="form.progress_percentage" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                <p class="text-sm mt-1 text-red-500" v-if="Object.keys(form.errors).length > 0">Save the Edit Service Order form first.</p>
             </div>
-
-
-
 
             </template>
 

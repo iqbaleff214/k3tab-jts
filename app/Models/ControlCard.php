@@ -12,14 +12,19 @@ class ControlCard extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'is_accepted' => 'boolean',
+        'is_approved' => 'boolean',
+    ];
+
     public function scopeRender($query, $search, $page)
     {
         return $query
             ->with(['reporter', 'attachments'])
             ->search($search)
-            // ->latest()
             ->when(in_array(auth()->user()->role, ['customer', 'sales_support']), fn($q) => $q->where('is_approved', true)->where('is_accepted', true))
             ->when(auth()->user()->role == Role::SUPERVISOR->value, fn($q) => $q->where('is_approved', true))
+            ->oldest()
             ->paginate($page)
             ->appends([
                 'search' => $search,

@@ -36,6 +36,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'salary_number' => ['required', Rule::unique('users')->ignore($this->id)],
+            'position' => 'nullable',
             'address' => 'nullable',
             'email' => 'nullable',
             'phone' => 'nullable',

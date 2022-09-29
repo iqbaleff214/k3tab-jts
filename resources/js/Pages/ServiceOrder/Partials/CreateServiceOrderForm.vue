@@ -51,6 +51,7 @@ const form = useForm({
     foreman_id: null,
     serviceman_id: null,
     new_customer: false,
+    progress_percentage: 0,
 });
 
 const storeServiceOrder = () => {
@@ -73,7 +74,7 @@ const storeServiceOrder = () => {
 
         <template #form>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="id" value="Service Order Number" />
                 <Input
                     id="id"
@@ -85,7 +86,7 @@ const storeServiceOrder = () => {
                 <InputError :message="form.errors.id" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="foreman_id" value="Foreman PIC*" class="capitalize" />
                 <select v-model="form.foreman_id" id="foreman_id" class="border-gray-300 mt-1 block w-full focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm">
                     <option v-for="foreman in $page.props.foremen" :key="foreman.id" :value="foreman.id">{{ foreman.name + ' - ' + foreman.salary_number }}</option>

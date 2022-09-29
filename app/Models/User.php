@@ -33,6 +33,7 @@ class User extends Authenticatable
         'phone',
         'superior_id',
         'role',
+        'position',
     ];
 
     /**

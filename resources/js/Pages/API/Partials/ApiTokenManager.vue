@@ -86,7 +86,7 @@ const deleteApiToken = () => {
 
             <template #form>
                 <!-- Token Name -->
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <JetLabel for="name" value="Name" />
                     <JetInput
                         id="name"

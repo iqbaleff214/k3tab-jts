@@ -28,6 +28,7 @@ class StoreControlCardRequest extends FormRequest
             'date' => 'required',
             'special_note' => 'required|string',
             'is_approved' => 'boolean',
+            'is_accepted' => 'boolean',
             'service_order_id' => 'required',
             'serviceman_id' => 'required',
         ];

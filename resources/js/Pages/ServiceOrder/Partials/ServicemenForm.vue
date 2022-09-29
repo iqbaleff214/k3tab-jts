@@ -92,15 +92,16 @@ onBeforeMount(() => {
 
         <template #form>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="serviceman_id" value="Serviceman Name" />
                 <select @change="onSelected($event)" v-model="form.serviceman_id" id="superior_id" class="border-gray-300 mt-1 block w-full focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm">
                     <option v-for="serviceman in $page.props.servicemen" :key="serviceman.id" :value="serviceman.id">{{ serviceman.name }}</option>
                 </select>
+                <p class="text-sm mt-1 text-red-500" v-if="Object.keys(form.errors).length > 0">Save the Edit Service Order form first.</p>
                 <InputError :message="form.errors.serviceman_id" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="salary_number" value="Salary Number" />
                 <Input
                     id="salary_number"
@@ -111,18 +112,18 @@ onBeforeMount(() => {
                 />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <Label for="role" value="Role" />
+            <div class="col-span-6 sm:col-span-6">
+                <Label for="position" value="Position" />
                 <Input
-                    id="role"
-                    :value="selected?.role"
+                    id="position"
+                    :value="selected?.position"
                     disabled
                     type="text"
                     class="mt-1 block w-full bg-gray-100 capitalize"
                 />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="phone" value="Phone Number" />
                 <Input
                     id="phone"
@@ -133,11 +134,11 @@ onBeforeMount(() => {
                 />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
-                <Label for="address" value="Address" />
+            <div class="col-span-6 sm:col-span-6">
+                <Label for="email" value="Email" />
                 <Input
-                    id="address"
-                    :value="selected?.address"
+                    id="email"
+                    :value="selected?.email"
                     disabled
                     type="text"
                     class="mt-1 block w-full bg-gray-100"

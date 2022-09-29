@@ -37,6 +37,7 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'salary_number' => ['required', Rule::unique('users')],
             'role' => 'required',
+            'position' => 'required',
             'phone' => 'nullable',
             'email' => 'nullable',
             'address' => 'nullable',

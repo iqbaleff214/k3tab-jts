@@ -46,7 +46,7 @@ const storeCustomer = () => {
 
         <template #form>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="salary_number" value="Customer Number*" />
                 <Input
                     id="salary_number"
@@ -57,7 +57,7 @@ const storeCustomer = () => {
                 <InputError :message="form.errors.salary_number" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="name" value="Customer Name*" />
                 <Input
                     id="name"
@@ -68,7 +68,7 @@ const storeCustomer = () => {
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="phone" value="Phone Number" />
                 <Input
                     id="phone"
@@ -79,7 +79,7 @@ const storeCustomer = () => {
                 <InputError :message="form.errors.phone" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="email" value="Email" />
                 <Input
                     id="email"
@@ -90,7 +90,7 @@ const storeCustomer = () => {
                 <InputError :message="form.errors.email" class="mt-2" />
             </div>
 
-            <div class="col-span-6 sm:col-span-4">
+            <div class="col-span-6 sm:col-span-6">
                 <Label for="address" value="Address" />
                 <Input
                     id="address"

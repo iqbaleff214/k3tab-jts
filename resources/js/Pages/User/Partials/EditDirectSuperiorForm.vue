@@ -58,7 +58,7 @@
 
             <template #form>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="name" value="Name" />
                     <select v-if="form.role == 'serviceman'" @change="onSelected($event)" v-model="form.superior_id" id="superior_id" class="border-gray-300 mt-1 block w-full focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50 rounded-md shadow-sm">
                         <option v-for="foreman in $page.props.foremen" :key="foreman.id" :value="foreman.id">{{ foreman.name }}</option>
@@ -69,7 +69,7 @@
                     <InputError :message="form.errors.name" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="salary_number" value="Salary Number" />
                     <Input
                         id="salary_number"
@@ -80,7 +80,7 @@
                     />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="role" value="Role" />
                     <Input
                         id="role"
@@ -91,7 +91,7 @@
                     />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="phone" value="Phone Number" />
                     <Input
                         id="phone"
@@ -102,7 +102,7 @@
                     />
                 </div>
 
-                <div class="col-span-6 sm:col-span-4">
+                <div class="col-span-6 sm:col-span-6">
                     <Label for="address" value="Address" />
                     <Input
                         id="address"
