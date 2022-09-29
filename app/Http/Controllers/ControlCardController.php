@@ -55,7 +55,9 @@ class ControlCardController extends Controller
             if ($service_order->status == ServiceOrderStatus::TO_DO->value) {
                 $service_order->update(['status' => ServiceOrderStatus::IN_PROGRESS]);
             }
-            $cc = ControlCard::create($request->validated());
+            $data = $request->validated();
+            $data['service_order_id'] = (string) $data['service_order_id'];
+            $cc = ControlCard::create($data);
             if ($request->hasFile('file')) {
                 $fileName = time() . '_' . $request->file('file')->getClientOriginalName();
                 $cc->attachments()->create([
