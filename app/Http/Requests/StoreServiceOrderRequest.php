@@ -74,7 +74,7 @@ class StoreServiceOrderRequest extends FormRequest
             'supervisor_id' => ['nullable'],
             'foreman_id' => ['nullable'],
             'serviceman_id' => ['nullable'],
-            'progress_percentage' => ['numeric', 'gt:0'],
+            'progress_percentage' => ['numeric', 'gte:0'],
         ];
     }
 }

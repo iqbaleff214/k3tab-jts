@@ -76,7 +76,7 @@ class UpdateServiceOrderRequest extends FormRequest
             'signed_1' => ['nullable'],
             'signed_2' => ['nullable'],
             'status' => ['nullable'],
-            'progress_percentage' => ['nullable'],
+            'progress_percentage' => ['numeric', 'gte:0'],
             'customer_id' => ['nullable'],
             'supervisor_id' => ['nullable'],
             'foreman_id' => ['nullable'],
