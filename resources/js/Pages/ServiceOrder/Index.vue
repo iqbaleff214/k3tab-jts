@@ -171,7 +171,7 @@ const markAsDoneSelected = () => {
                                 <td class="px-6 py-4" v-if="['customer', 'sales_support'].includes($page.props.user.role)">
                                     <div class="flex justify-between mb-1">
                                         <span class="text-xs font-medium text-gray-700 dark:text-white">Last updated: {{ new Date(so.updated_at).toLocaleString('id-ID') }}</span>
-                                        <span class="text-sm font-medium text-gray-700 dark:text-white">45%</span>
+                                        <span class="text-sm font-medium text-gray-700 dark:text-white">{{ `${so.progress_percentage}%` }}</span>
                                     </div>
                                     <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                                         <div
