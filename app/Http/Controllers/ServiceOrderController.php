@@ -128,7 +128,7 @@ class ServiceOrderController extends Controller
                 // $service_order->servicemen()->syncWithoutDetaching([$request->serviceman_id]);
                 DB::table('service_order_user')->insert([
                     'user_id' => $request->serviceman_id,
-                    'service_order_id' => $service_order->id,
+                    'service_order_id' => (string) $service_order->id,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
