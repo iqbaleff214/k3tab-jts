@@ -126,7 +126,7 @@
                     <InputError :message="form.errors.email" class="mt-2" />
                 </div>
 
-                <div class="col-span-6 sm:col-span-6">
+                <!-- <div class="col-span-6 sm:col-span-6">
                     <Label for="address" value="Address" />
                     <Input
                         id="address"
@@ -135,7 +135,7 @@
                         class="mt-1 block w-full"
                     />
                     <InputError :message="form.errors.address" class="mt-2" />
-                </div>
+                </div> -->
 
             </template>
 

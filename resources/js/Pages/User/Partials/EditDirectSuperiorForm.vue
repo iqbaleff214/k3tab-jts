@@ -103,10 +103,10 @@
                 </div>
 
                 <div class="col-span-6 sm:col-span-6">
-                    <Label for="address" value="Address" />
+                    <Label for="email" value="Email" />
                     <Input
-                        id="address"
-                        :value="selected?.address"
+                        id="email"
+                        :value="selected?.email"
                         disabled
                         type="text"
                         class="mt-1 block w-full bg-gray-100"
