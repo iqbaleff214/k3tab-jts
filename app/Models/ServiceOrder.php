@@ -117,7 +117,7 @@ class ServiceOrder extends Model
     {
         return $this
             ->belongsToMany(User::class, 'service_order_user', 'service_order_id', 'user_id')
-            ->as('servicemen');
+            ->as('servicemen')->withPivot('created_at');
     }
 
     public function controlCard()

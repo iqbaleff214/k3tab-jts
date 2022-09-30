@@ -64,7 +64,8 @@ const closeDetailModal = () => showDetailModal.value = false;
                         <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                         <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
-                        <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
+                        <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.comment }}</p>
+                        <p class="text-xs font-normal text-gray-400 dark:text-gray-400">Reported by: {{ timeline?.reporter?.name }}</p>
                         <div v-if="timeline.attachments?.length">
                             <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
                             <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
@@ -76,7 +77,8 @@ const closeDetailModal = () => showDetailModal.value = false;
                         <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                         <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
-                        <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
+                        <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.comment }}</p>
+                        <p class="text-xs font-normal text-gray-400 dark:text-gray-400">Reported by: {{ timeline?.reporter?.name }}</p>
                         <div v-if="timeline.attachments?.length">
                             <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
                             <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>

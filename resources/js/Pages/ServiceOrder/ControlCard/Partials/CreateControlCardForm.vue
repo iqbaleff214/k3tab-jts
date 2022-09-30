@@ -41,6 +41,7 @@ const uploadFile = (event) => {
 const form = useForm({
     date: new Date().toISOString().slice(0, 10),
     special_note: null,
+    comment: null,
     is_approved: false,
     is_accepted: false,
     service_order_id: props.so.id,
@@ -89,6 +90,16 @@ const storeControlCard = () => {
                     class="mt-1 block w-full"
                 />
                 <InputError :message="form.errors.special_note" class="mt-2" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-6">
+                <Label for="comment" value="Comment" />
+                    <textarea
+                        rows="4"
+                        v-model="form.comment"
+                        class="block p-2.5 w-full text-gray-900 rounded-md border-gray-300  focus:border-yellow-300 focus:ring focus:ring-yellow-200 focus:ring-opacity-50"
+                        :placeholder="placeholder"></textarea>
+                <InputError :message="form.errors.comment" class="mt-2" />
             </div>
 
 

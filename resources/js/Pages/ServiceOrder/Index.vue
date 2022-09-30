@@ -76,7 +76,8 @@ onBeforeMount(() => {
         columns.value = [
             'Service Order No',
             'Serial Number',
-            'Model',
+            'Equipment Number',
+            'Sales Model',
             'Status',
             'Progress',
         ];
@@ -164,6 +165,8 @@ const markAsDoneSelected = () => {
                                 <td class="px-6 py-4" v-if="['customer'].includes($page.props.user.role)">{{ so.serial_number ?? '-' }}</td>
                                 <td class="px-6 py-4" v-else>{{ so.customer_name ?? '-' }}</td>
 
+                                <td class="px-6 py-4" v-if="['customer'].includes($page.props.user.role)">{{ so.operation ?? '-' }}</td>
+
                                 <td class="px-6 py-4" v-if="['customer'].includes($page.props.user.role)">{{ so.model ?? '-' }}</td>
                                 <td class="px-6 py-4" v-else>{{ so.serviceman ? so.serviceman?.name : '-' }}</td>
 
@@ -224,8 +227,9 @@ const markAsDoneSelected = () => {
                             <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                             <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
-                            <div v-if="timeline.attachments.length">
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.comment }}</p>
+                            <p class="text-xs font-normal text-gray-400 dark:text-gray-400">Reported by: {{ timeline?.reporter?.name }}</p>
+                            <div v-if="timeline.attachments?.length">
                                 <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
                                 <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
                             </div>
@@ -236,8 +240,9 @@ const markAsDoneSelected = () => {
                             <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                             <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ new Date(timeline.created_at).toLocaleString('id-ID') }}</time>
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ timeline?.special_note }}</h3>
-                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.reporter?.name }}</p>
-                            <div v-if="timeline.attachments.length">
+                            <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ timeline?.comment }}</p>
+                            <p class="text-xs font-normal text-gray-400 dark:text-gray-400">Reported by: {{ timeline?.reporter?.name }}</p>
+                            <div v-if="timeline.attachments?.length">
                                 <img :src="timeline.attachments[0].path" alt="Attachment" class="w-full my-2 rounded-lg" v-if="imageExt.exec(timeline.attachments[0].path)">
                                 <a :href="timeline.attachments[0].path" class="text-xs text-orange-500" target="_blank" v-else>Open Attachment in New Tab</a>
                             </div>
@@ -254,100 +259,80 @@ const markAsDoneSelected = () => {
                 </div>
                 <table class="w-full overflow-x-scroll text-sm text-left mt-4 text-gray-500 dark:text-gray-400" v-else>
                     <tbody>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">service order no</th>
-                            <td>{{ selectedServiceOrder?.service_order_no ?? '-' }}</td>
+                        <tr class="hover:bg-gray-50" v-if="$page.props.user.role != 'customer'">
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">foreman</th>
+                            <td width="25%">{{ selectedServiceOrder?.foreman?.name ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">customer name</th>
+                            <td width="25%">
+                                {{ selectedServiceOrder?.customer_name ?? '-' }}
+                                <div v-text="selectedServiceOrder?.customer_no" class="text-xs"></div>
+                            </td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">status</th>
-                            <td>{{ selectedServiceOrder?.service_order_status ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">service order</th>
+                            <td width="25%">{{ selectedServiceOrder?.service_order_no ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">job description</th>
+                            <td width="25%">{{ selectedServiceOrder?.job_description ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">supervisor</th>
-                            <td>{{ selectedServiceOrder?.supervisor?.name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">foreman PIC</th>
-                            <td>{{ selectedServiceOrder?.foreman?.name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">serviceman</th>
-                            <td>{{ selectedServiceOrder?.serviceman?.name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">segment</th>
-                            <td>{{ selectedServiceOrder?.segment ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">equipment number</th>
-                            <td>{{ selectedServiceOrder?.operation ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">job code</th>
-                            <td>{{ selectedServiceOrder?.job_code ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">component name</th>
-                            <td>{{ selectedServiceOrder?.component_code ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">smu</th>
-                            <td>{{ selectedServiceOrder?.smu ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">warranty?</th>
-                            <td>{{ selectedServiceOrder?.warranty ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">pip/psp</th>
-                            <td>{{ selectedServiceOrder?.pip_psp ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">section</th>
-                            <td>{{ selectedServiceOrder?.business_area ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">customer name</th>
-                            <td>{{ selectedServiceOrder?.customer_name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">service team</th>
-                            <td>{{ selectedServiceOrder?.service_team ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">customer no</th>
-                            <td>{{ selectedServiceOrder?.customer_no ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">sales model</th>
+                            <th class="capitalize px-2 py-6 font-bold">sales model</th>
                             <td>{{ selectedServiceOrder?.model ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">serial number</th>
+                            <th class="capitalize px-2 py-6 font-bold">serial number</th>
                             <td>{{ selectedServiceOrder?.serial_number ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">arr. no</th>
+                            <th class="capitalize px-2 py-6 font-bold">arr. no</th>
                             <td>{{ selectedServiceOrder?.arrg_no ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">SMU</th>
+                            <td>{{ selectedServiceOrder?.smu ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">std hours</th>
-                            <td>{{ selectedServiceOrder?.std_hours ?? '0' }} hours</td>
+                            <th class="capitalize px-2 py-6 font-bold">equipment number</th>
+                            <td>{{ selectedServiceOrder?.operation ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">component name</th>
+                            <td>{{ selectedServiceOrder?.component_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">job description</th>
-                            <td>{{ selectedServiceOrder?.job_description ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">segment</th>
+                            <td>{{ selectedServiceOrder?.segment ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">warranty?</th>
+                            <td>{{ selectedServiceOrder?.warranty ? 'Yes' : 'No' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date received</th>
-                            <td>{{ selectedServiceOrder?.date_required ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">job code</th>
+                            <td colspan="3">{{ selectedServiceOrder?.job_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">servicemen</th>
-                            <td>
-                                <ul>
-                                    <li v-for="serviceman in selectedServiceOrder.servicemen" :key="serviceman.id">
-                                        {{ serviceman.name }}
+                            <th class="capitalize px-2 py-6 font-bold">PIP/PSP</th>
+                            <td colspan="3">{{ selectedServiceOrder?.pip_psp ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">service team</th>
+                            <td colspan="3">{{ selectedServiceOrder?.service_team ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">section</th>
+                            <td colspan="3">{{ selectedServiceOrder?.business_area ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">std hours</th>
+                            <td colspan="3">{{ selectedServiceOrder?.std_hours ?? '0' }} hours</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">date received</th>
+                            <td colspan="3">{{ selectedServiceOrder?.date_required ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50" v-if="$page.props.user.role != 'customer'">
+                            <th class="capitalize px-2 py-6 font-bold">servicemen</th>
+                            <td colspan="3">
+                                <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                    <li v-for="serviceman in selectedServiceOrder.servicemen" :key="serviceman.id" class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span v-text="serviceman.salary_number" class="mr-4 font-semibold text-orange-500"></span> {{ serviceman.name }}
+                                            </div>
+                                            <span class="text-gray-500 text-xs" v-if="serviceman.servicemen?.created_at">{{ new Date(serviceman.servicemen?.created_at).toLocaleString('id-ID') }}</span>
+                                        </div>
                                     </li>
                                 </ul>
                             </td>

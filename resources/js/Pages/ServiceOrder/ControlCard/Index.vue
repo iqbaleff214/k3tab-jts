@@ -44,8 +44,8 @@ const closeStatusModal = () => showStatusModal.value = false;
 const columns = ref([
     'Date',
     'Note',
-    'Serviceman',
-    'Attachment',
+    'Reporter',
+    'Comment',
 ]);
 
 const imageExt = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
@@ -84,11 +84,8 @@ const approveSelected = () => {
 
 onBeforeMount(() => {
     const user = usePage().props.value.user;
-    if (['serviceman', 'foreman'].includes(user.role)) {
-        columns.value.push('Foreman Approved?');
-        columns.value.push('Supervisor Approved?');
-    } else if(['supervisor'].includes(user.role)) {
-        columns.value.push('Approved?');
+    if (['serviceman', 'foreman', 'supervisor'].includes(user.role)) {
+        columns.value.push('Approval');
     }
 });
 
@@ -137,14 +134,22 @@ onBeforeMount(() => {
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     {{ new Date(card.created_at).toLocaleString('id-ID') }}
                                 </th>
-                                <td class="px-6 py-4">{{ card.special_note ?? '-' }}</td>
-                                <td class="px-6 py-4">{{ card.reporter?.name ?? '-' }}</td>
-                                <td class="px-6 py-4" v-if="card.attachments.length">
-                                    <a :href="card.attachments[0].path" class="text-xs text-orange-500" target="_blank">Open in New Tab</a>
+                                <td class="px-6 py-4">
+                                    {{ card.special_note ?? '-' }}
+                                    <div v-if="card.attachments.length">
+                                        <a :href="card.attachments[0].path" class="text-orange-500 text-xs mt-2" target="_blank">Open Attachment</a>
+                                    </div>
                                 </td>
-                                <td class="px-6 py-4" v-else>No</td>
-                                <td class="px-6 py-4" v-if="['serviceman', 'foreman'].includes($page.props.user.role)">{{ card.is_approved ? 'Yes' : 'No' }}</td>
-                                <td class="px-6 py-4" v-if="['serviceman', 'foreman', 'supervisor'].includes($page.props.user.role)">{{ card.is_accepted ? 'Yes' : 'No' }}</td>
+                                <td class="px-6 py-4">{{ card.reporter?.name ?? '-' }}</td>
+                                <td class="px-6 py-4">{{ card.comment ?? '-' }}</td>
+                                <td class="px-6 py-4" v-if="['serviceman', 'foreman', 'supervisor'].includes($page.props.user.role)">
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900" :class="{
+                                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900': card?.is_approved
+                                    }" v-if="$page.props.user.role != 'supervisor'">Foreman</span>
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-200 dark:text-gray-900" :class="{
+                                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900': card?.is_accepted
+                                    }">Supervisor</span>
+                                </td>
                                 <!-- <td class="px-6 py-4 text-right" v-if="['serviceman'].includes($page.props.user.role) && card.serviceman_id == $page.props.user.id">
                                     <Link class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline" :href="route('control-cards.edit', { service_order: so.id, control_card: card.id })">
                                         Edit
@@ -194,100 +199,80 @@ onBeforeMount(() => {
             <template #content>
                 <table class="w-full overflow-x-scroll text-sm text-left mt-4 text-gray-500 dark:text-gray-400">
                     <tbody>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">service order no</th>
-                            <td>{{ so?.service_order_no ?? '-' }}</td>
+                        <tr class="hover:bg-gray-50" v-if="$page.props.user.role != 'customer'">
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">foreman</th>
+                            <td width="25%">{{ so?.foreman?.name ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">customer name</th>
+                            <td width="25%">
+                                {{ so?.customer_name ?? '-' }}
+                                <div v-text="so?.customer_no" class="text-xs"></div>
+                            </td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">status</th>
-                            <td>{{ so?.service_order_status ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">service order</th>
+                            <td width="25%">{{ so?.service_order_no ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold" width="25%">job description</th>
+                            <td width="25%">{{ so?.job_description ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">supervisor</th>
-                            <td>{{ so?.supervisor?.name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">foreman PIC</th>
-                            <td>{{ so?.foreman?.name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">serviceman</th>
-                            <td>{{ so?.serviceman?.name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">segment</th>
-                            <td>{{ so?.segment ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">equipment number</th>
-                            <td>{{ so?.operation ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">job code</th>
-                            <td>{{ so?.job_code ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">component name</th>
-                            <td>{{ so?.component_code ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">smu</th>
-                            <td>{{ so?.smu ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">warranty?</th>
-                            <td>{{ so?.warranty ? 'Yes' : 'No' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">pip/psp</th>
-                            <td>{{ so?.pip_psp ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">section</th>
-                            <td>{{ so?.business_area ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">customer name</th>
-                            <td>{{ so?.customer_name ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">service team</th>
-                            <td>{{ so?.service_team ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">customer no</th>
-                            <td>{{ so?.customer_no ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">sales model</th>
+                            <th class="capitalize px-2 py-6 font-bold">sales model</th>
                             <td>{{ so?.model ?? '-' }}</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">serial number</th>
+                            <th class="capitalize px-2 py-6 font-bold">serial number</th>
                             <td>{{ so?.serial_number ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">arr. no</th>
+                            <th class="capitalize px-2 py-6 font-bold">arr. no</th>
                             <td>{{ so?.arrg_no ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">SMU</th>
+                            <td>{{ so?.smu ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">std hours</th>
-                            <td>{{ so?.std_hours ?? '0' }} hours</td>
+                            <th class="capitalize px-2 py-6 font-bold">equipment number</th>
+                            <td>{{ so?.operation ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">component name</th>
+                            <td>{{ so?.component_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">job description</th>
-                            <td>{{ so?.job_description ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">segment</th>
+                            <td>{{ so?.segment ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">warranty?</th>
+                            <td>{{ so?.warranty ? 'Yes' : 'No' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">date received</th>
-                            <td>{{ so?.date_required ?? '-' }}</td>
+                            <th class="capitalize px-2 py-6 font-bold">job code</th>
+                            <td colspan="3">{{ so?.job_code ?? '-' }}</td>
                         </tr>
                         <tr class="hover:bg-gray-50">
-                            <th class="capitalize px-6 py-4 font-medium">servicemen</th>
-                            <td>
-                                <ul>
-                                    <li v-for="serviceman in so.servicemen" :key="serviceman.id">
-                                        {{ serviceman.name }}
+                            <th class="capitalize px-2 py-6 font-bold">PIP/PSP</th>
+                            <td colspan="3">{{ so?.pip_psp ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">service team</th>
+                            <td colspan="3">{{ so?.service_team ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">section</th>
+                            <td colspan="3">{{ so?.business_area ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">std hours</th>
+                            <td colspan="3">{{ so?.std_hours ?? '0' }} hours</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <th class="capitalize px-2 py-6 font-bold">date received</th>
+                            <td colspan="3">{{ so?.date_required ?? '-' }}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50" v-if="$page.props.user.role != 'customer'">
+                            <th class="capitalize px-2 py-6 font-bold">servicemen</th>
+                            <td colspan="3">
+                                <ul class="w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                    <li v-for="serviceman in so.servicemen" :key="serviceman.id" class="py-2 px-4 w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <span v-text="serviceman.salary_number" class="mr-4 font-semibold text-orange-500"></span> {{ serviceman.name }}
+                                            </div>
+                                            <span class="text-gray-500 text-xs" v-if="serviceman.servicemen?.created_at">{{ new Date(serviceman.servicemen?.created_at).toLocaleString('id-ID') }}</span>
+                                        </div>
                                     </li>
                                 </ul>
                             </td>

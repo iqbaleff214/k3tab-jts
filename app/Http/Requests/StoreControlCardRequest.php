@@ -27,6 +27,7 @@ class StoreControlCardRequest extends FormRequest
         return [
             'date' => 'required',
             'special_note' => 'required|string',
+            'comment' => 'nullable',
             'is_approved' => 'boolean',
             'is_accepted' => 'boolean',
             'service_order_id' => 'required',
