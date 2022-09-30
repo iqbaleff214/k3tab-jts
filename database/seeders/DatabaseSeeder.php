@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
                 'salary_number' => '000000003',
                 'password' => Hash::make('admin'),
                 'role' => Role::SERVICEMAN,
+                'position' => 'Senior Technician',
                 'created_at' => now(),
                 'updated_at' => now(),
                 'superior_id' => 3,
