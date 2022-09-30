@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
                 'salary_number' => '000000000',
                 'password' => Hash::make('admin'),
                 'role' => Role::SUPERADMIN,
+                'position' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'superior_id' => null,
